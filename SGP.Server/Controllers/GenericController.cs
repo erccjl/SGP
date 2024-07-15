@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SGP.Aplicacion.Dtos;
 using SGP.Aplicacion.Services.Interfaces;
 
@@ -17,6 +18,7 @@ namespace SGP.Server.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public virtual async Task<ActionResult<TDto>> Get(int id)
         {
             var result = await _entityService.Get(id);
@@ -25,6 +27,7 @@ namespace SGP.Server.Controllers
         }
 
         [HttpPost("")]
+        [Authorize]
         public virtual async Task<IActionResult> Post([FromBody] TDto dto)
         {
             if (dto == null) return BadRequest();
@@ -37,6 +40,7 @@ namespace SGP.Server.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public virtual async Task<IActionResult> Put([FromRoute] int id, [FromBody] TDto dto)
         {
             if (dto == null) return BadRequest();
@@ -50,6 +54,7 @@ namespace SGP.Server.Controllers
         }
 
         [HttpPut("{id}/activate")]
+        [Authorize]
         public virtual async Task<IActionResult> PutActivate([FromRoute] int id)
         {
             if (!await _entityService.Exists(id)) return BadRequest();
@@ -58,6 +63,7 @@ namespace SGP.Server.Controllers
         }
 
         [HttpPut("{id}/inactivate")]
+        [Authorize]
         public virtual async Task<IActionResult> PutInactivate([FromRoute] int id)
         {
             if (!await _entityService.Exists(id)) return BadRequest();
