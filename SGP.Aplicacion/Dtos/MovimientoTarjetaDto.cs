@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace SGP.Aplicacion.Dtos
 {
-    public class CuotaDto : BaseEntityDto
+    public class MovimientoTarjetaDto : MovimientoDto
     {
-        public int NumeroCuotas { get; set; }
+        public int TarjetaId { get; set; }
 
-        public DateTime FechaInicio { get; set; }
-
+        public string TarjetaName { get; set; }
     }
 }

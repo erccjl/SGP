@@ -12,7 +12,7 @@ using SGP.Datos.Context;
 namespace SGP.Datos.Migrations
 {
     [DbContext(typeof(PresupuestoContext))]
-    [Migration("20240713233122_1.0.0-baseEntities")]
+    [Migration("20240716024118_1.0.0-baseEntities")]
     partial class _100baseEntities
     {
         /// <inheritdoc />
@@ -40,6 +40,9 @@ namespace SGP.Datos.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("EsSuma")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<int>("State")
                         .HasColumnType("int");
 
@@ -53,7 +56,7 @@ namespace SGP.Datos.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Categotias");
+                    b.ToTable("Categorias");
                 });
 
             modelBuilder.Entity("SGP.Dominio.Entidades.Consumidor", b =>
@@ -67,12 +70,26 @@ namespace SGP.Datos.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("FechaNacimiento")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("State")
                         .HasColumnType("int");
+
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<double>("TopeGasto")
+                        .HasColumnType("double");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime(6)");
@@ -101,17 +118,11 @@ namespace SGP.Datos.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<DateTime>("Periodo")
                         .HasColumnType("datetime(6)");
 
                     b.Property<int>("State")
                         .HasColumnType("int");
-
-                    b.Property<double>("TopeGatos")
-                        .HasColumnType("double");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime(6)");
@@ -139,7 +150,7 @@ namespace SGP.Datos.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("MesInicio")
+                    b.Property<DateTime>("FechaInicio")
                         .HasColumnType("datetime(6)");
 
                     b.Property<int>("NumeroCuotas")
@@ -169,13 +180,13 @@ namespace SGP.Datos.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CategoriaId")
+                    b.Property<int>("CategoriaId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("CuentaId")
+                    b.Property<int>("CuentaId")
                         .HasColumnType("int");
 
                     b.Property<int?>("CuotaId")
@@ -185,16 +196,22 @@ namespace SGP.Datos.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<bool>("IsSuma")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("varchar(21)");
+
+                    b.Property<int>("FormaPago")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Monto")
+                        .HasColumnType("double");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<int>("State")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TarjetaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TipoMovimiento")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -211,11 +228,13 @@ namespace SGP.Datos.Migrations
 
                     b.HasIndex("CuotaId");
 
-                    b.HasIndex("TarjetaId");
-
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Movimientos");
+                    b.ToTable("Movimiento");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Movimiento");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("SGP.Dominio.Entidades.Tarjeta", b =>
@@ -226,7 +245,7 @@ namespace SGP.Datos.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ConsumidorId")
+                    b.Property<int>("ConsumidorId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
@@ -266,18 +285,7 @@ namespace SGP.Datos.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("FechaNacimiento")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Telefono")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -288,6 +296,25 @@ namespace SGP.Datos.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("SGP.Dominio.Entidades.MovimientoEfectivo", b =>
+                {
+                    b.HasBaseType("SGP.Dominio.Entidades.Movimiento");
+
+                    b.HasDiscriminator().HasValue("MovimientoEfectivo");
+                });
+
+            modelBuilder.Entity("SGP.Dominio.Entidades.MovimientoTarjeta", b =>
+                {
+                    b.HasBaseType("SGP.Dominio.Entidades.Movimiento");
+
+                    b.Property<int>("TarjetaId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("TarjetaId");
+
+                    b.HasDiscriminator().HasValue("MovimientoTarjeta");
                 });
 
             modelBuilder.Entity("SGP.Dominio.Entidades.Categoria", b =>
@@ -346,19 +373,19 @@ namespace SGP.Datos.Migrations
                 {
                     b.HasOne("SGP.Dominio.Entidades.Categoria", "Categoria")
                         .WithMany("Movimientos")
-                        .HasForeignKey("CategoriaId");
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SGP.Dominio.Entidades.Cuenta", "Cuenta")
                         .WithMany("Movimientos")
-                        .HasForeignKey("CuentaId");
+                        .HasForeignKey("CuentaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("SGP.Dominio.Entidades.Cuota", "Cuotas")
+                    b.HasOne("SGP.Dominio.Entidades.Cuota", "Cuota")
                         .WithMany()
                         .HasForeignKey("CuotaId");
-
-                    b.HasOne("SGP.Dominio.Entidades.Tarjeta", "Tarjeta")
-                        .WithMany("Movimientos")
-                        .HasForeignKey("TarjetaId");
 
                     b.HasOne("SGP.Dominio.Entidades.Usuario", "Usuario")
                         .WithMany()
@@ -370,9 +397,7 @@ namespace SGP.Datos.Migrations
 
                     b.Navigation("Cuenta");
 
-                    b.Navigation("Cuotas");
-
-                    b.Navigation("Tarjeta");
+                    b.Navigation("Cuota");
 
                     b.Navigation("Usuario");
                 });
@@ -381,7 +406,9 @@ namespace SGP.Datos.Migrations
                 {
                     b.HasOne("SGP.Dominio.Entidades.Consumidor", "Consumidor")
                         .WithMany("Tarjetas")
-                        .HasForeignKey("ConsumidorId");
+                        .HasForeignKey("ConsumidorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SGP.Dominio.Entidades.Usuario", "Usuario")
                         .WithMany()
@@ -392,6 +419,17 @@ namespace SGP.Datos.Migrations
                     b.Navigation("Consumidor");
 
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("SGP.Dominio.Entidades.MovimientoTarjeta", b =>
+                {
+                    b.HasOne("SGP.Dominio.Entidades.Tarjeta", "Tarjeta")
+                        .WithMany()
+                        .HasForeignKey("TarjetaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tarjeta");
                 });
 
             modelBuilder.Entity("SGP.Dominio.Entidades.Categoria", b =>
@@ -407,11 +445,6 @@ namespace SGP.Datos.Migrations
                 });
 
             modelBuilder.Entity("SGP.Dominio.Entidades.Cuenta", b =>
-                {
-                    b.Navigation("Movimientos");
-                });
-
-            modelBuilder.Entity("SGP.Dominio.Entidades.Tarjeta", b =>
                 {
                     b.Navigation("Movimientos");
                 });

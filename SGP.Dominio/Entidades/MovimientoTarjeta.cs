@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace SGP.Dominio.Entidades
 {
-    public class Usuario
+    public class MovimientoTarjeta : Movimiento
     {
-        public int Id { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        public int TarjetaId { get; set; }
+        public virtual Tarjeta Tarjeta { get; set; }
     }
 }

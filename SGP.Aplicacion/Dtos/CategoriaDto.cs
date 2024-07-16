@@ -11,6 +11,8 @@ namespace SGP.Aplicacion.Dtos
     {
         public string Descripcion { get; set; }
 
+        public bool EsSuma { get; set; }
+
         public List<MovimientoDto>? Movimientos { get; set; }
     }
 }

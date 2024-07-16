@@ -14,7 +14,7 @@ namespace SGP.Datos.Context
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<Categoria> Categotias { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
 
         public DbSet<Tarjeta> Tarjetas { get; set;}
 
@@ -22,7 +22,9 @@ namespace SGP.Datos.Context
 
         public DbSet<Cuenta> Cuentas { get; set;}
 
-        public DbSet<Movimiento> Movimientos { get; set;}
+        public DbSet<MovimientoTarjeta> MovimientosTarjeta { get; set;}
+
+        public DbSet<MovimientoEfectivo> MovimientosEfectivo { get; set;}
 
         public DbSet<Cuota> Cuotas { get; set;}
 

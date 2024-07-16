@@ -4,9 +4,11 @@
     {
         public int NumeroCuotas { get; set; }
 
-        public DateTime MesInicio { get; set; }
+        public DateTime FechaInicio { get; set; }
 
-       // public bool Finalizada {  get; set; } //TODO: Modificar para mejorar los tiempos al momento de buscar los movimientos
-
+        public DateTime FechaFin
+        {
+            get { return FechaInicio.AddMonths(NumeroCuotas); }
+        }
     }
 }
