@@ -10,7 +10,6 @@ namespace SGP.Server.Controllers
     {
         private readonly IMovimientoService _movimientoService;
 
-
         public MovimientoController(IMovimientoService movimientoService)
             : base(movimientoService)
         {
