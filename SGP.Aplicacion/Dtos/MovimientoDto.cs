@@ -10,26 +10,23 @@ namespace SGP.Aplicacion.Dtos
 {
     public class MovimientoDto : BaseEntityDto
     {
+        public string Nombre { get; set; }
+
         public string Descipcion { get; set; }
 
-        public TipoMovimiento TipoMovimiento { get; set; }
+        public FormaPago FormaPago { get; set; }
 
-        public bool IsSuma { get; set; }
-
-        public int? CuentaId { get; set; }
+        public int CuentaId { get; set; }
 
         public CuentaDto? Cuenta { get; set; }
 
         public int? CuotaId { get; set; }
 
-        public  CuotaDto? Cuotas { get; set; }
+        public  CuotaDto Cuotas { get; set; }
 
-        public int? CategoriaId { get; set; }
+        public int CategoriaId { get; set; }
 
         public CategoriaDto? Categoria { get; set; }
 
-        public int? TarjetaId { get; set; }
-
-        public TarjetaDto? TarjetaDto { get; set; }
     }
 }

@@ -6,10 +6,10 @@
 
         public string Descripcion { get; set; }
 
-        public List<MovimientoDto>? Movimientos { get; set; }
+        public List<MovimientoTarjetaDto>? Movimientos { get; set; }
 
-        public int? ConsumidorId { get; set; }
+        public int ConsumidorId { get; set; }
 
-        public ConsumidorDto? Consumidor { get; set; }
+        public string ConsumidorName { get; set; }
     }
 }

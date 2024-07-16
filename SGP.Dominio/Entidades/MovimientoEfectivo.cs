@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SGP.Dominio.Enums
+namespace SGP.Dominio.Entidades
 {
-    public enum TipoMovimiento
+    public class MovimientoEfectivo : Movimiento
     {
-        Debito,
-        Credito,
-        Efectivo
+
     }
 }

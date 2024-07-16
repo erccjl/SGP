@@ -4,6 +4,8 @@
     {
         public string Descripcion {  get; set; }
 
+        public bool EsSuma { get; set; }
+
         public virtual List<Movimiento>? Movimientos { get; set;}
     }
 }

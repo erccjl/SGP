@@ -4,27 +4,25 @@ namespace SGP.Dominio.Entidades
 {
     public class Movimiento : BaseEntity
     {
+        public string Nombre { get; set; }
+
         public string Descipcion { get; set; }
 
-        public TipoMovimiento TipoMovimiento { get; set; }
+        public double Monto { get; set; }
 
-        public bool IsSuma { get; set; }
+        public FormaPago FormaPago { get; set; }
 
-        public int? CuentaId { get; set; }
+        public int CuentaId { get; set; }
 
-        public virtual Cuenta? Cuenta { get; set; }
+        public virtual Cuenta Cuenta { get; set; }
 
         public int? CuotaId { get; set; }
 
-        public virtual Cuota? Cuotas { get; set; }
+        public virtual Cuota Cuota { get; set; }
 
-        public int? CategoriaId { get; set; }
+        public int CategoriaId { get; set; }
 
-        public virtual Categoria? Categoria { get; set; }
-
-        public int? TarjetaId { get; set; }
-
-        public virtual Tarjeta? Tarjeta { get; set; }
+        public virtual Categoria Categoria { get; set; }
 
     }
 }

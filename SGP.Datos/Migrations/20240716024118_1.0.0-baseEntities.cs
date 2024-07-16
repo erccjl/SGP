@@ -24,11 +24,6 @@ namespace SGP.Datos.Migrations
                     UserName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Password = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Email = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    FechaNacimiento = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Telefono = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -38,13 +33,14 @@ namespace SGP.Datos.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Categotias",
+                name: "Categorias",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Descripcion = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    EsSuma = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     State = table.Column<int>(type: "int", nullable: false),
@@ -52,9 +48,9 @@ namespace SGP.Datos.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categotias", x => x.Id);
+                    table.PrimaryKey("PK_Categorias", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Categotias_Usuarios_UsuarioId",
+                        name: "FK_Categorias_Usuarios_UsuarioId",
                         column: x => x.UsuarioId,
                         principalTable: "Usuarios",
                         principalColumn: "Id",
@@ -70,6 +66,12 @@ namespace SGP.Datos.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nombre = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FechaNacimiento = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Telefono = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TopeGasto = table.Column<double>(type: "double", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     State = table.Column<int>(type: "int", nullable: false),
@@ -94,7 +96,7 @@ namespace SGP.Datos.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     NumeroCuotas = table.Column<int>(type: "int", nullable: false),
-                    MesInicio = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    FechaInicio = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     State = table.Column<int>(type: "int", nullable: false),
@@ -119,8 +121,6 @@ namespace SGP.Datos.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Periodo = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    TopeGatos = table.Column<double>(type: "double", nullable: false),
-                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     ConsumidorId = table.Column<int>(type: "int", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -155,7 +155,7 @@ namespace SGP.Datos.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Descripcion = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ConsumidorId = table.Column<int>(type: "int", nullable: true),
+                    ConsumidorId = table.Column<int>(type: "int", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     State = table.Column<int>(type: "int", nullable: false),
@@ -168,7 +168,8 @@ namespace SGP.Datos.Migrations
                         name: "FK_Tarjetas_Consumidores_ConsumidorId",
                         column: x => x.ConsumidorId,
                         principalTable: "Consumidores",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Tarjetas_Usuarios_UsuarioId",
                         column: x => x.UsuarioId,
@@ -179,18 +180,22 @@ namespace SGP.Datos.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Movimientos",
+                name: "Movimiento",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Descipcion = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    TipoMovimiento = table.Column<int>(type: "int", nullable: false),
-                    IsSuma = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    CuentaId = table.Column<int>(type: "int", nullable: true),
+                    Monto = table.Column<double>(type: "double", nullable: false),
+                    FormaPago = table.Column<int>(type: "int", nullable: false),
+                    CuentaId = table.Column<int>(type: "int", nullable: false),
                     CuotaId = table.Column<int>(type: "int", nullable: true),
-                    CategoriaId = table.Column<int>(type: "int", nullable: true),
+                    CategoriaId = table.Column<int>(type: "int", nullable: false),
+                    Discriminator = table.Column<string>(type: "varchar(21)", maxLength: 21, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     TarjetaId = table.Column<int>(type: "int", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -199,29 +204,32 @@ namespace SGP.Datos.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Movimientos", x => x.Id);
+                    table.PrimaryKey("PK_Movimiento", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Movimientos_Categotias_CategoriaId",
+                        name: "FK_Movimiento_Categorias_CategoriaId",
                         column: x => x.CategoriaId,
-                        principalTable: "Categotias",
-                        principalColumn: "Id");
+                        principalTable: "Categorias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Movimientos_Cuentas_CuentaId",
+                        name: "FK_Movimiento_Cuentas_CuentaId",
                         column: x => x.CuentaId,
                         principalTable: "Cuentas",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Movimientos_Cuotas_CuotaId",
+                        name: "FK_Movimiento_Cuotas_CuotaId",
                         column: x => x.CuotaId,
                         principalTable: "Cuotas",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Movimientos_Tarjetas_TarjetaId",
+                        name: "FK_Movimiento_Tarjetas_TarjetaId",
                         column: x => x.TarjetaId,
                         principalTable: "Tarjetas",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Movimientos_Usuarios_UsuarioId",
+                        name: "FK_Movimiento_Usuarios_UsuarioId",
                         column: x => x.UsuarioId,
                         principalTable: "Usuarios",
                         principalColumn: "Id",
@@ -230,8 +238,8 @@ namespace SGP.Datos.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categotias_UsuarioId",
-                table: "Categotias",
+                name: "IX_Categorias_UsuarioId",
+                table: "Categorias",
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
@@ -255,28 +263,28 @@ namespace SGP.Datos.Migrations
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movimientos_CategoriaId",
-                table: "Movimientos",
+                name: "IX_Movimiento_CategoriaId",
+                table: "Movimiento",
                 column: "CategoriaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movimientos_CuentaId",
-                table: "Movimientos",
+                name: "IX_Movimiento_CuentaId",
+                table: "Movimiento",
                 column: "CuentaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movimientos_CuotaId",
-                table: "Movimientos",
+                name: "IX_Movimiento_CuotaId",
+                table: "Movimiento",
                 column: "CuotaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movimientos_TarjetaId",
-                table: "Movimientos",
+                name: "IX_Movimiento_TarjetaId",
+                table: "Movimiento",
                 column: "TarjetaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movimientos_UsuarioId",
-                table: "Movimientos",
+                name: "IX_Movimiento_UsuarioId",
+                table: "Movimiento",
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
@@ -294,10 +302,10 @@ namespace SGP.Datos.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Movimientos");
+                name: "Movimiento");
 
             migrationBuilder.DropTable(
-                name: "Categotias");
+                name: "Categorias");
 
             migrationBuilder.DropTable(
                 name: "Cuentas");
